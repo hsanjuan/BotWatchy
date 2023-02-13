@@ -23,6 +23,7 @@ public:
   void drawDate();
   void drawWeather();
   void drawWeatherIcon(int8_t iconPosX, int16_t iconWeatherConditionCode);
+  void drawSteps();
   void drawBattery();
   void drawWifi();
 

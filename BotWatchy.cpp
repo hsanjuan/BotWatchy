@@ -5,22 +5,24 @@ const int posHeart0X = 10;
 const int posHeart0Y = 10;
 const int posHeart1X = 40;
 const int posHeart1Y = 10;
-const int posHeart2X = 70;
+const int posHeart2X = 69;
 const int posHeart2Y = 10;
-const int posTemperatureX = 144;
-const int posTemperatureY = 93;
-const int posTriforceX = 9;
-const int posTriforceY = 162;
-const int posWeatherBaseX = 44;
-const int posWeatherBaseY = 150;
-const int posWeather0X = 59;
-const int posWeather0Y = 157;
-const int posWeather1X = 101;
-const int posWeather1Y = 157;
-const int posWeather2X = 144;
-const int posWeather2Y = 157;
-const int posWifiX = 144;
-const int posWifiY = 37;
+const int posTemperatureX = 138;
+const int posTemperatureY = 68;
+const int posTriforceX = 8;
+const int posTriforceY = 163;
+const int posWeatherBaseX = 40;
+const int posWeatherBaseY = 151;
+const int posWeather0X = 55;
+const int posWeather0Y = 158;
+const int posWeather1X = 103;
+const int posWeather1Y = 158;
+const int posWeather2X = 151;
+const int posWeather2Y = 158;
+const int posWifiX = 138;
+const int posWifiY = 10;
+const int posStepsX = 10;
+const int posStepsY = 38;
 
 const float VOLTAGE_MIN = 3.2;
 const float VOLTAGE_MAX = 4.1;
@@ -39,11 +41,14 @@ void BotWatchy::drawWatchFace()
   display.fillScreen(GxEPD_WHITE);
   display.setTextColor(GxEPD_BLACK);
 
+  display.drawBitmap(0, 0, epd_bitmap_Border, 200, 200, GxEPD_BLACK);
+  
   display.drawBitmap(posTriforceX, posTriforceY, epd_bitmap_triforce, 33, 28, GxEPD_BLACK);
 
   drawTime();
   drawDate();
   drawWeather();
+  drawSteps();
   drawBattery();
   drawWifi();
 }
@@ -68,10 +73,10 @@ void BotWatchy::drawDate()
   String dayOfWeek = dayStr(currentTime.Wday);
   String month = monthStr(currentTime.Month);
 
-  display.setCursor(12, 68);
+  display.setCursor(12, 78);
   display.println(dayOfWeek);
 
-  display.setCursor(12, 87);
+  display.setCursor(12, 97);
   display.print(month);
   display.print(" ");
 
@@ -84,6 +89,14 @@ void BotWatchy::drawDate()
     display.print("rd");
   else
     display.print("th");
+}
+
+void BotWatchy::drawSteps(){
+    uint32_t stepCount = sensor.getCounter();
+    display.drawBitmap(posStepsX, posStepsY, epd_bitmap_steps, 19, 19, GxEPD_BLACK);
+    display.setFont(&Calamity_Bold8pt7b);
+    display.setCursor(posStepsX + 20, posStepsY + 14);
+    display.println(stepCount);
 }
 
 void BotWatchy::drawBattery()
