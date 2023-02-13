@@ -22,7 +22,7 @@ const int posWeather2Y = 158;
 const int posWifiX = 138;
 const int posWifiY = 10;
 const int posStepsX = 10;
-const int posStepsY = 38;
+const int posStepsY = 37;
 
 const float VOLTAGE_MIN = 3.2;
 const float VOLTAGE_MAX = 4.1;
@@ -56,7 +56,7 @@ void BotWatchy::drawWatchFace()
 void BotWatchy::drawTime()
 {
   display.setFont(&Calamity_Bold18pt7b);
-  display.setCursor(12, 140);
+  display.setCursor(12, 135);
   if (currentTime.Hour < 10)
     display.print("0");
   display.print(currentTime.Hour);
@@ -66,6 +66,29 @@ void BotWatchy::drawTime()
   display.println(currentTime.Minute);
 }
 
+const char* BotWatchy::Ordinal(uint8_t num)
+{
+  switch(num % 100)
+  {
+      case 11:
+      case 12:
+      case 13:
+        return "th";
+  }
+
+  switch(num % 10)
+  {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+  }
+}
+
 void BotWatchy::drawDate()
 {
   display.setFont(&Calamity_Bold8pt7b);
@@ -73,22 +96,15 @@ void BotWatchy::drawDate()
   String dayOfWeek = dayStr(currentTime.Wday);
   String month = monthStr(currentTime.Month);
 
-  display.setCursor(12, 78);
+  display.setCursor(12, 71);
   display.println(dayOfWeek);
 
-  display.setCursor(12, 97);
+  display.setCursor(12, 90);
   display.print(month);
   display.print(" ");
 
   display.print(currentTime.Day);
-  if (currentTime.Day == 1)
-    display.print("st");
-  else if (currentTime.Day == 2)
-    display.print("nd");
-  else if (currentTime.Day == 3)
-    display.print("rd");
-  else
-    display.print("th");
+  display.print(Ordinal(currentTime.Day));
 }
 
 void BotWatchy::drawSteps(){
@@ -113,83 +129,28 @@ void BotWatchy::drawBattery()
   // display.setCursor(10, 50);
   // display.print(batState);
 
-  if (batState == 12)
+  display.drawBitmap(posHeart0X, posHeart0Y, HeartBitmap(batState), 27, 22, GxEPD_BLACK);
+  display.drawBitmap(posHeart1X, posHeart1Y, HeartBitmap(batState - 4), 27, 22, GxEPD_BLACK);
+  display.drawBitmap(posHeart2X, posHeart2Y, HeartBitmap(batState - 8), 27, 22, GxEPD_BLACK);
+}
+
+const unsigned char* BotWatchy::HeartBitmap(int amount)
+{
+  if (amount < 0)
+      return epd_bitmap_heart_empty;
+
+  switch(amount)
   {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 11)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_threequarters, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 10)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_half, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 9)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_quarter, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 8)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 7)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_threequarters, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 6)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_half, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 5)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_quarter, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 4)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_full, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 3)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_threequarters, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 2)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_half, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 1)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_quarter, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-  }
-  else if (batState == 0)
-  {
-    display.drawBitmap(posHeart0X, posHeart0Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart1X, posHeart1Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
-    display.drawBitmap(posHeart2X, posHeart2Y, epd_bitmap_heart_empty, 27, 22, GxEPD_BLACK);
+    case 0:
+      return epd_bitmap_heart_empty;
+    case 1:
+      return epd_bitmap_heart_quarter;
+    case 2:
+      return epd_bitmap_heart_half;
+    case 3:
+      return epd_bitmap_heart_threequarters;
+    default:
+      return epd_bitmap_heart_full;
   }
 }
 
