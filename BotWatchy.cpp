@@ -1,28 +1,28 @@
 #include "BotWatchy.h"
 #include "settings.h"
 
-const int posHeart0X = 10;
-const int posHeart0Y = 10;
-const int posHeart1X = 40;
-const int posHeart1Y = 10;
-const int posHeart2X = 69;
-const int posHeart2Y = 10;
-const int posTemperatureX = 138;
-const int posTemperatureY = 68;
+const int posHeart0X = 15;
+const int posHeart0Y = 13;
+const int posHeart1X = 45;
+const int posHeart1Y = 13;
+const int posHeart2X = 74;
+const int posHeart2Y = 13;
+const int posTemperatureX = 130;
+const int posTemperatureY = 95;
 const int posTriforceX = 8;
 const int posTriforceY = 163;
-const int posWeatherBaseX = 40;
+const int posWeatherBaseX = 24;
 const int posWeatherBaseY = 151;
-const int posWeather0X = 55;
+const int posWeather0X = 39;
 const int posWeather0Y = 158;
-const int posWeather1X = 103;
+const int posWeather1X = 87;
 const int posWeather1Y = 158;
-const int posWeather2X = 151;
+const int posWeather2X = 135;
 const int posWeather2Y = 158;
-const int posWifiX = 138;
-const int posWifiY = 10;
-const int posStepsX = 10;
-const int posStepsY = 37;
+const int posWifiX = 130;
+const int posWifiY = 16;
+const int posStepsX = 13;
+const int posStepsY = 40;
 
 const float VOLTAGE_MIN = 3.2;
 const float VOLTAGE_MAX = 4.1;
@@ -43,7 +43,7 @@ void BotWatchy::drawWatchFace()
 
   display.drawBitmap(0, 0, epd_bitmap_Border, 200, 200, GxEPD_BLACK);
   
-  display.drawBitmap(posTriforceX, posTriforceY, epd_bitmap_triforce, 33, 28, GxEPD_BLACK);
+  //display.drawBitmap(posTriforceX, posTriforceY, epd_bitmap_triforce, 33, 28, GxEPD_BLACK);
 
   drawTime();
   drawDate();
@@ -56,7 +56,7 @@ void BotWatchy::drawWatchFace()
 void BotWatchy::drawTime()
 {
   display.setFont(&Calamity_Bold18pt7b);
-  display.setCursor(12, 135);
+  display.setCursor(11, 133);
   if (currentTime.Hour < 10)
     display.print("0");
   display.print(currentTime.Hour);
@@ -96,10 +96,10 @@ void BotWatchy::drawDate()
   String dayOfWeek = dayStr(currentTime.Wday);
   String month = monthStr(currentTime.Month);
 
-  display.setCursor(12, 71);
+  display.setCursor(16, 76);
   display.println(dayOfWeek);
 
-  display.setCursor(12, 90);
+  display.setCursor(16, 95);
   display.print(month);
   display.print(" ");
 
