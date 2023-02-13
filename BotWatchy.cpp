@@ -1,4 +1,5 @@
 #include "BotWatchy.h"
+#include "settings.h"
 
 const int posHeart0X = 10;
 const int posHeart0Y = 10;
@@ -28,10 +29,10 @@ const float VOLTAGE_RANGE = 0.9;
 RTC_DATA_ATTR int weatherIntervalCounterOneCall = WEATHER_UPDATE_INTERVAL;
 RTC_DATA_ATTR weatherDataOneCall currentWeatherOneCall;
 
-BotWatchy::BotWatchy()
-{
+//BotWatchy::BotWatchy()
+//{
   // Serial.begin(115200);
-}
+//
 
 void BotWatchy::drawWatchFace()
 {

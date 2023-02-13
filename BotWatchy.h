@@ -2,10 +2,10 @@
 #define BOTWATCHY_H
 
 #include <Watchy.h>
-#include "../include/images.h"
-#include "../include/Calamity_Bold18pt7b.h"
-#include "../include/Calamity_Bold8pt7b.h"
-#include "../include/secrets.h"
+#include "include/images.h"
+#include "include/Calamity_Bold18pt7b.h"
+#include "include/Calamity_Bold8pt7b.h"
+#include "include/secrets.h"
 
 typedef struct weatherDataOneCall{
   boolean invalid;
@@ -15,10 +15,9 @@ typedef struct weatherDataOneCall{
   int16_t weatherConditionCode2;
 }weatherDataOneCall;
 
-class BotWatchy : public Watchy
-{
+class BotWatchy : public Watchy {
+  using Watchy::Watchy;
 public:
-  BotWatchy();
   void drawWatchFace();
   void drawTime();
   void drawDate();
