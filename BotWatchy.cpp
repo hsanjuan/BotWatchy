@@ -1,11 +1,11 @@
 #include "BotWatchy.h"
 #include "settings.h"
 
-const int posHeart0X = 15;
+const int posHeart0X = 18;
 const int posHeart0Y = 13;
-const int posHeart1X = 45;
+const int posHeart1X = 48;
 const int posHeart1Y = 13;
-const int posHeart2X = 74;
+const int posHeart2X = 78;
 const int posHeart2Y = 13;
 const int posTemperatureX = 130;
 const int posTemperatureY = 95;
@@ -21,7 +21,7 @@ const int posWeather2X = 135;
 const int posWeather2Y = 158;
 const int posWifiX = 130;
 const int posWifiY = 16;
-const int posStepsX = 13;
+const int posStepsX = 16;
 const int posStepsY = 40;
 
 const float VOLTAGE_MIN = 3.2;
@@ -56,7 +56,7 @@ void BotWatchy::drawWatchFace()
 void BotWatchy::drawTime()
 {
   display.setFont(&Calamity_Bold18pt7b);
-  display.setCursor(11, 133);
+  display.setCursor(14, 133);
   if (currentTime.Hour < 10)
     display.print("0");
   display.print(currentTime.Hour);
@@ -96,10 +96,10 @@ void BotWatchy::drawDate()
   String dayOfWeek = dayStr(currentTime.Wday);
   String month = monthStr(currentTime.Month);
 
-  display.setCursor(16, 76);
+  display.setCursor(19, 76);
   display.println(dayOfWeek);
 
-  display.setCursor(16, 95);
+  display.setCursor(19, 95);
   display.print(month);
   display.print(" ");
 
